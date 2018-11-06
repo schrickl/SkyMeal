@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">SkyMeal</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_menu">Sky Meal Menu</string>
+
+    <string name="cont_desc_splash">Splash Screen Icon</string>
+    <string name="cont_desc_menu_item_image">Menu Item Image</string>
 </resources>
