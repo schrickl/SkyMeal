@@ -1,7 +1,6 @@
 package com.bill.android.skymeal.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bill.android.skymeal.R;
-import com.bill.android.skymeal.activities.SummaryActivity;
 import com.bill.android.skymeal.models.MenuItem;
 import com.squareup.picasso.Picasso;
 
@@ -54,13 +52,13 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.ViewHo
 
         holder.name.setText(item.getName());
         holder.description.setText(item.getDescription());
-        holder.price.setText(item.getPrice());
+        holder.price.setText("$" + item.getPrice());
 
         holder.container.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, SummaryActivity.class);
-                mContext.startActivity(intent);
+//                Intent intent = new Intent(mContext, SummaryActivity.class);
+//                mContext.startActivity(intent);
             }
         });
     }

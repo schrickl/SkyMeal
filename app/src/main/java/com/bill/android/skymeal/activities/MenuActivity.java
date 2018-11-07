@@ -8,11 +8,11 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.widget.Button;
 
 import com.bill.android.skymeal.R;
 import com.bill.android.skymeal.adapters.MenuItemAdapter;
 import com.bill.android.skymeal.models.MenuItem;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,8 +30,7 @@ public class MenuActivity extends AppCompatActivity {
     private MenuItemAdapter mAdapter;
     private static ArrayList<MenuItem> mMenuItems = new ArrayList<>();
     @BindView(R.id.rv_menu) RecyclerView mRecyclerView;
-
-    private ChildEventListener mChildEventListener;
+    @BindView(R.id.btn_submit) Button mSubmitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +41,7 @@ public class MenuActivity extends AppCompatActivity {
 
         // Initialize Firebase components
         FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
-        //final DatabaseReference mMenuDatabaseReference = mFirebaseDatabase.getReference().child("items/linner/linner_1");
-        final DatabaseReference mMenuDatabaseReference = mFirebaseDatabase.getReference().child("items").child("linner").child("linner_1");
-
+        final DatabaseReference mMenuDatabaseReference = mFirebaseDatabase.getReference().child("/items/linner");
 
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         int width = Math.round(displayMetrics.widthPixels / displayMetrics.density);
@@ -56,33 +53,23 @@ public class MenuActivity extends AppCompatActivity {
         mAdapter = new MenuItemAdapter(this, mMenuItems);
         mRecyclerView.setAdapter(mAdapter);
 
-        mMenuDatabaseReference.addValueEventListener(new ValueEventListener() {
+        mMenuDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                MenuItem menuItem = dataSnapshot.getValue(MenuItem.class);
-//                mMenuItems.clear();
-//                mMenuItems.add(menuItem);
-//                mAdapter.notifyDataSetChanged();
-
-                for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                    MenuItem clothing = dataSnapshot.getValue(MenuItem.class);
-                    mMenuItems.clear();
-                    mMenuItems.add(clothing);
-                    Log.d(LOG_TAG, "item: " + clothing.toString());
+                mMenuItems.clear();
+                Iterable<DataSnapshot> snapIter = dataSnapshot.getChildren();
+                for (DataSnapshot aSnapIter : snapIter) {
+                    MenuItem item = aSnapIter.getValue(MenuItem.class);
+                    Log.d(LOG_TAG, "Retrieved menu item: " + item.toString());
+                    mMenuItems.add(item);
                     mAdapter.notifyDataSetChanged();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e(LOG_TAG, "Firebase Database Error: " + databaseError.getMessage());
             }
         });
-
-        // TODO
-        loadMenu();
-    }
-
-    private void loadMenu() {
-
     }
 }
