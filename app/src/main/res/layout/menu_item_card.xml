@@ -6,8 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    android:clickable="true"
-    android:focusable="true"
     app:cardCornerRadius="8dp"
     app:cardElevation="8dp">
 
@@ -16,8 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:clickable="true"
-        android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground">
 
         <ImageView

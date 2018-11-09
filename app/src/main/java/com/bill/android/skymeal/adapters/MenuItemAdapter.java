@@ -1,8 +1,8 @@
 package com.bill.android.skymeal.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.net.Uri;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,6 +26,7 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.ViewHo
     private static final String LOG_TAG = MenuItemAdapter.class.getSimpleName();
     private Context mContext;
     private ArrayList<MenuItem> mMenuItems;
+    private ArrayList<MenuItem> mSelected = new ArrayList<>();
 
     public MenuItemAdapter(Context context, ArrayList<MenuItem> itemList) {
         mContext = context;
@@ -54,18 +55,38 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.ViewHo
         holder.description.setText(item.getDescription());
         holder.price.setText("$" + item.getPrice());
 
-        holder.card.setOnClickListener(new View.OnClickListener() {
+        holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                v.setSelected(!v.isSelected());
+                if (mSelected.contains(item)) {
+                    mSelected.remove(item);
+                    unhighlightView(holder);
+                } else {
+                    mSelected.add(item);
+                    highlightView(holder);
+                }
             }
         });
 
-        if (holder.itemView.isSelected()) {
-            holder.card.setBackgroundColor(Color.BLUE);
+        if (mSelected.contains(item)) {
+            highlightView(holder);
         } else {
-            holder.card.setBackgroundColor(Color.RED);
+            unhighlightView(holder);
         }
+    }
+
+    private void highlightView(ViewHolder holder) {
+        holder.itemView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorPrimaryDark));
+    }
+
+    private void unhighlightView(ViewHolder holder) {
+        holder.itemView.setBackgroundColor(ContextCompat.getColor(mContext, android.R.color.white));
+    }
+
+    private void clearAll(boolean isNotify) {
+        mMenuItems.clear();
+        mSelected.clear();
+        if (isNotify) notifyDataSetChanged();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder  {
