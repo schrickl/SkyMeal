@@ -27,10 +27,16 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.ViewHo
     private Context mContext;
     private ArrayList<MenuItem> mMenuItems;
     private ArrayList<MenuItem> mSelected = new ArrayList<>();
+    private OnMenuItemClickListener mOnMenuItemClickListener;
 
-    public MenuItemAdapter(Context context, ArrayList<MenuItem> itemList) {
+    public interface OnMenuItemClickListener {
+        void onMenuItemClick(float price);
+    }
+
+    public MenuItemAdapter(Context context, ArrayList<MenuItem> itemList, OnMenuItemClickListener menuItemClickListener) {
         mContext = context;
         mMenuItems = itemList;
+        mOnMenuItemClickListener = menuItemClickListener;
     }
 
     @Override
@@ -61,9 +67,11 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.ViewHo
                 if (mSelected.contains(item)) {
                     mSelected.remove(item);
                     unhighlightView(holder);
+                    mOnMenuItemClickListener.onMenuItemClick(-(Float.valueOf(item.getPrice())));
                 } else {
                     mSelected.add(item);
                     highlightView(holder);
+                    mOnMenuItemClickListener.onMenuItemClick(Float.valueOf(item.getPrice()));
                 }
             }
         });
@@ -83,12 +91,6 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.ViewHo
         holder.itemView.setBackgroundColor(ContextCompat.getColor(mContext, android.R.color.white));
     }
 
-    private void clearAll(boolean isNotify) {
-        mMenuItems.clear();
-        mSelected.clear();
-        if (isNotify) notifyDataSetChanged();
-    }
-
     static class ViewHolder extends RecyclerView.ViewHolder  {
 
         @BindView(R.id.cv_container) CardView card;
@@ -103,5 +105,9 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.ViewHo
 
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public ArrayList<MenuItem> getSelected() {
+        return mSelected;
     }
 }

@@ -15,5 +15,6 @@
         android:id="@+id/btn_submit"
         android:layout_width="match_parent"
         android:layout_height="75dp"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"
+        android:text="@string/btn_select_items"/>
 </RelativeLayout>

@@ -3,6 +3,29 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_menu">Sky Meal Menu</string>
 
+    <string name="order_failure">Failed to Place Order!</string>
+    <string name="order_success">Order Completed Successfully!</string>
+    <string name="check_email">Check your email for receipt</string>
+    <string name="charge_msg">Your payment via Google Pay was processed successfully</string>
+    <string name="tv_subtotal">Subtotal:</string>
+    <string name="tv_tip">Tip:</string>
+    <string name="tv_total">Total:</string>
+    <string name="tv_add_tip">Add tip:</string>
+    <string name="tv_pay_with">Pay with:</string>
+    <string name="tv_google_pay">Google Pay</string>
+    <string name="btn_ten">10%</string>
+    <string name="btn_fifteen">15%</string>
+    <string name="btn_twenty">20%</string>
+    <string name="btn_place_order">Submit Order</string>
+    <string name="btn_select_items">Select Items</string>
+
+
     <string name="cont_desc_splash">Splash Screen Icon</string>
     <string name="cont_desc_menu_item_image">Menu Item Image</string>
+    <string name="cont_desc_summary_image">Summary Logo Image</string>
+    <string name="cont_desc_ten_percent">10% Button</string>
+    <string name="cont_desc_fifteen_percent">15% Button</string>
+    <string name="cont_desc_twenty_percent">20% Button</string>
+    <string name="cont_desc_google_pay">Google Pay Button</string>
+    <string name="cont_desc_order_button">Place Order Button</string>
 </resources>
