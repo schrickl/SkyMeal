@@ -22,6 +22,9 @@
     <string name="btn_minus">-</string>
     <string name="btn_plus">+</string>
     <string name="zero">$0.00</string>
+    <string name="widget_prefs">widget_prefs</string>
+    <string name="order_total">order_total</string>
+    <string name="order_details">order_details</string>
 
 
     <string name="cont_desc_splash">Splash Screen Icon</string>

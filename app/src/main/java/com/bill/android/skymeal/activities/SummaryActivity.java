@@ -1,12 +1,16 @@
 package com.bill.android.skymeal.activities;
 
+import android.appwidget.AppWidgetManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -41,6 +45,10 @@ public class SummaryActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary);
+        Toolbar menuToolbar = (Toolbar) findViewById(R.id.summary_toolbar);
+        setSupportActionBar(menuToolbar);
+        getSupportActionBar().setTitle(getString(R.string.title_activity_summary));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ButterKnife.bind(this);
 
@@ -59,8 +67,8 @@ public class SummaryActivity extends AppCompatActivity {
         }
         // Initial values
         mTip.setText(R.string.zero);
-        mTotal.setText(String.valueOf("$" + String.format("%.2f", mSub)));
         mSubtotal.setText(String.valueOf("$" + String.format("%.2f", mSub)));
+        mTotal.setText(String.valueOf("$" + String.format("%.2f", mSub)));
 
         mTen.setOnClickListener(new OnClickListener() {
             @Override
@@ -88,5 +96,29 @@ public class SummaryActivity extends AppCompatActivity {
                 mTotal.setText(String.valueOf("$" + String.format("%.2f", (mT + mSub))));
             }
         });
+
+        // Save last order in SharedPrefs for the widget to use
+        SharedPreferences prefs = getSharedPreferences(getString(R.string.widget_prefs), Context.MODE_PRIVATE | Context.MODE_MULTI_PROCESS);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putFloat(getString(R.string.order_total), (mT + mSub));
+        editor.putString(getString(R.string.order_details), orderDetailsBuilder());
+        editor.apply();
+
+        // and let the widget know there is a new order to display
+        Intent i = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        sendBroadcast(intent);
+    }
+
+    private String orderDetailsBuilder() {
+        String details = "";
+
+        for (int i = 0; i < mMenuItems.size(); i++) {
+            details += mMenuItems.get(i).getName() + " " + mMenuItems.get(i).getPrice();
+            if (i != mMenuItems.size() - 1) {
+                details += ("\n");
+            }
+        }
+
+        return details;
     }
 }

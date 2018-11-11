@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Intent mainClass = new Intent(MainActivity.this, LoginActivity.class);
+            Intent mainClass = new Intent(MainActivity.this, MenuActivity.class);
             startActivity(mainClass);
             finish();
         }

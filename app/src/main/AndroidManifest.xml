@@ -10,8 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -33,11 +32,21 @@
         </activity>
         <activity
             android:name=".activities.SummaryActivity"
-            android:label="@string/title_activity_summary">
+            android:label="@string/title_activity_summary"
+            android:parentActivityName=".activities.MenuActivity">
         </activity>
         <activity
             android:name=".activities.ReceiptActivity">
         </activity>
+        <receiver android:name=".widget.LastOrderSummaryWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/last_order_summary_widget_info"/>
+        </receiver>
     </application>
 
 </manifest>

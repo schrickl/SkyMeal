@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-                public class MenuActivity extends AppCompatActivity implements OnMenuItemClickListener {
+public class MenuActivity extends AppCompatActivity implements OnMenuItemClickListener {
 
     private static final String LOG_TAG = MenuActivity.class.getSimpleName();
     private static final String SELECTED_ITEMS = "SelectedItems";
@@ -42,6 +43,9 @@ import butterknife.ButterKnife;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+        Toolbar menuToolbar = (Toolbar) findViewById(R.id.menu_toolbar);
+        setSupportActionBar(menuToolbar);
+        getSupportActionBar().setTitle(getString(R.string.title_activity_menu));
 
         ButterKnife.bind(this);
 
