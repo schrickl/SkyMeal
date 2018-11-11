@@ -2,6 +2,7 @@
     <string name="app_name">SkyMeal</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_menu">Sky Meal Menu</string>
+    <string name="title_activity_summary">Order Summary</string>
 
     <string name="order_failure">Failed to Place Order!</string>
     <string name="order_success">Order Completed Successfully!</string>
@@ -18,6 +19,9 @@
     <string name="btn_twenty">20%</string>
     <string name="btn_place_order">Submit Order</string>
     <string name="btn_select_items">Select Items</string>
+    <string name="btn_minus">-</string>
+    <string name="btn_plus">+</string>
+    <string name="zero">$0.00</string>
 
 
     <string name="cont_desc_splash">Splash Screen Icon</string>
@@ -28,4 +32,6 @@
     <string name="cont_desc_twenty_percent">20% Button</string>
     <string name="cont_desc_google_pay">Google Pay Button</string>
     <string name="cont_desc_order_button">Place Order Button</string>
+    <string name="cont_desc_minus_button">Minus Button</string>
+    <string name="cont_desc_plus_button">Plus Button</string>
 </resources>

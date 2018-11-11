@@ -32,7 +32,8 @@
             android:label="@string/title_activity_login">
         </activity>
         <activity
-            android:name=".activities.SummaryActivity">
+            android:name=".activities.SummaryActivity"
+            android:label="@string/title_activity_summary">
         </activity>
         <activity
             android:name=".activities.ReceiptActivity">

@@ -2,8 +2,8 @@ package com.bill.android.skymeal.adapters;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,14 +44,15 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.ViewHo
         return mMenuItems == null ? 0 : mMenuItems.size();
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_item_card, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         final MenuItem item = mMenuItems.get(position);
 
         Uri uri = Uri.parse(item.getUrl());
@@ -93,7 +94,6 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.ViewHo
 
     static class ViewHolder extends RecyclerView.ViewHolder  {
 
-        @BindView(R.id.cv_container) CardView card;
         @BindView(R.id.ll_menu_card) LinearLayout container;
         @BindView(R.id.iv_item_image) ImageView image;
         @BindView(R.id.tv_item_name) TextView name;

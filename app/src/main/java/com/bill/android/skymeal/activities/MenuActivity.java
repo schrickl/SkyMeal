@@ -93,7 +93,7 @@ import butterknife.ButterKnife;
         mPrice += itemPrice;
 
         if (mPrice > 0) {
-            mSelectItemsBtn.setText("$" + mPrice);
+            mSelectItemsBtn.setText("$" + String.format("%.2f", mPrice));
         } else {
             mSelectItemsBtn.setText(R.string.btn_select_items);
         }
