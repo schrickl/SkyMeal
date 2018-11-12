@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'key0'
+            keyPassword 'billsch1234'
+            storeFile file('../app/keystore/keystore.jks')
+            storePassword 'billsch1234'
+        }
+    }
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.bill.android.skymeal"
@@ -15,37 +23,35 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+        debug {
+            signingConfig signingConfigs.config
         }
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "com.android.support:appcompat-v7:$androidSupportVersion"
     implementation "com.android.support:palette-v7:$androidSupportVersion"
     implementation "com.android.support:recyclerview-v7:$androidSupportVersion"
     implementation "com.android.support:cardview-v7:$androidSupportVersion"
     implementation "com.android.support:design:$androidSupportVersion"
-
     // Firebase UI
     implementation 'com.firebaseui:firebase-ui-auth:4.2.1'
-
     // Firebase
     implementation 'com.google.firebase:firebase-database:16.0.5'
     implementation 'com.google.firebase:firebase-auth:16.0.5'
     implementation 'com.google.firebase:firebase-storage:16.0.5'
     implementation 'com.google.firebase:firebase-core:16.0.5'
-
     // Google Pay
     implementation 'com.google.android.gms:play-services-wallet:16.0.1'
-
     // Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
-
     // ButterKnife
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-
     // Test
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

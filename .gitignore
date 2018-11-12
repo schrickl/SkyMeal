@@ -9,3 +9,5 @@
 .externalNativeBuild
 /gradle.properties
 *.json
+/app/keystore
+/app/release
