@@ -2,6 +2,7 @@ package com.bill.android.skymeal.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -36,6 +37,8 @@ public class MenuActivity extends AppCompatActivity implements OnMenuItemClickLi
     private MenuItemAdapter mAdapter;
     private static ArrayList<MenuItem> mMenuItems = new ArrayList<>();
     private float mPrice = 0;
+    private static final String BUNDLE_RECYCLER_LAYOUT = "recycler_key";
+    private Parcelable mSavedRecyclerLayoutState;
     @BindView(R.id.rv_menu) RecyclerView mRecyclerView;
     @BindView(R.id.btn_submit) Button mSelectItemsBtn;
 
@@ -100,6 +103,23 @@ public class MenuActivity extends AppCompatActivity implements OnMenuItemClickLi
             mSelectItemsBtn.setText("$" + String.format("%.2f", mPrice));
         } else {
             mSelectItemsBtn.setText(R.string.btn_select_items);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(BUNDLE_RECYCLER_LAYOUT, mRecyclerView.getLayoutManager().onSaveInstanceState());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        if(savedInstanceState != null)
+        {
+            mSavedRecyclerLayoutState = savedInstanceState.getParcelable(BUNDLE_RECYCLER_LAYOUT);
+            mRecyclerView.getLayoutManager().onRestoreInstanceState(mSavedRecyclerLayoutState);
         }
     }
 }

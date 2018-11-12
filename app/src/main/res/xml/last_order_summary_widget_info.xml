@@ -3,7 +3,7 @@
                     android:initialKeyguardLayout="@layout/order_summary_widget"
                     android:initialLayout="@layout/order_summary_widget"
                     android:minHeight="280dp"
-                    android:minWidth="250dp"
+                    android:minWidth="320dp"
                     android:previewImage="@mipmap/ic_launcher_round"
                     android:resizeMode="horizontal|vertical"
                     android:updatePeriodMillis="0"

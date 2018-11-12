@@ -113,7 +113,7 @@ public class SummaryActivity extends AppCompatActivity {
         String details = "";
 
         for (int i = 0; i < mMenuItems.size(); i++) {
-            details += mMenuItems.get(i).getName() + " " + mMenuItems.get(i).getPrice();
+            details += mMenuItems.get(i).getName() + " " + "$" + mMenuItems.get(i).getPrice();
             if (i != mMenuItems.size() - 1) {
                 details += ("\n");
             }

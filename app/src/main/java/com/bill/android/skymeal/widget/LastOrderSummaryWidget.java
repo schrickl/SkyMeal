@@ -26,7 +26,7 @@ public class LastOrderSummaryWidget extends AppWidgetProvider {
         SharedPreferences sharedPreferencesForWidget = context.getSharedPreferences(context.getString(R.string.widget_prefs), Context.MODE_PRIVATE | Context.MODE_MULTI_PROCESS);
         float orderTotal = sharedPreferencesForWidget.getFloat(context.getString(R.string.order_total), (float) 0.00);
         String orderDetails = sharedPreferencesForWidget.getString(context.getString(R.string.order_details), "");
-        views.setTextViewText(R.id.tv_widget_order_total, String.valueOf(orderTotal));
+        views.setTextViewText(R.id.tv_widget_order_total, "$" + String.valueOf(orderTotal));
         views.setTextViewText(R.id.tv_widget_order_details, orderDetails);
 
         // Launch the app when clicked
