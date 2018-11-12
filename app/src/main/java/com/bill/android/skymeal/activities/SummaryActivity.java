@@ -42,6 +42,10 @@ import java.util.Optional;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * Credit for Google Pay API to:
+ * https://developers.google.com/pay/api/android/guides/tutorial
+ */
 public class SummaryActivity extends AppCompatActivity {
 
     private static String LOG_TAG = SummaryActivity.class.getSimpleName();

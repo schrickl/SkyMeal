@@ -7,6 +7,11 @@ import org.json.JSONObject;
 import java.util.Optional;
 
 /**
+ * Credit to:
+ * https://developers.google.com/pay/api/android/guides/tutorial
+ */
+
+/**
  * Google Pay API request configurations
  *
  * @see <a href="https://developers.google.com/pay/api/android/">Google Pay API Android
