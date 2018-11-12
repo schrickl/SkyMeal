@@ -129,7 +129,7 @@ public class SummaryActivity extends AppCompatActivity {
 
         // and let the widget know there is a new order to display
         Intent i = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        sendBroadcast(intent);
+        sendBroadcast(i);
 
         // initialize a Google Pay API client for an environment suitable for testing
         mPaymentsClient =
