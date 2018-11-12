@@ -139,14 +139,5 @@
             android:layout_margin="8dp"
             android:contentDescription="@string/cont_desc_google_pay"
             android:src="@drawable/buy_with_googlepay_button_content"/>
-
-
-        <!--<Button-->
-            <!--android:id="@+id/btn_order"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center|bottom"-->
-            <!--android:contentDescription="@string/cont_desc_order_button"-->
-            <!--android:text="@string/btn_place_order"/>-->
     </LinearLayout>
 </ScrollView>

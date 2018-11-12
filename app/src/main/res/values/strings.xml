@@ -3,11 +3,13 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_menu">Sky Meal Menu</string>
     <string name="title_activity_summary">Order Summary</string>
+    <string name="title_activity_receipt">Sky Meal Order Receipt</string>
 
     <string name="order_failure">Failed to Place Order!</string>
     <string name="order_success">Order Completed Successfully!</string>
     <string name="check_email">Check your email for receipt</string>
-    <string name="charge_msg">Your payment via Google Pay was processed successfully</string>
+    <string name="charge_msg_success">Your payment via Google Pay was processed successfully</string>
+    <string name="charge_msg_failure">Your payment via Google Pay was not processed successfully</string>
     <string name="tv_subtotal">Subtotal:</string>
     <string name="tv_tip">Tip:</string>
     <string name="tv_total">Total:</string>
@@ -25,6 +27,7 @@
     <string name="widget_prefs">widget_prefs</string>
     <string name="order_total">order_total</string>
     <string name="order_details">order_details</string>
+    <string name="action_share">Share</string>
 
 
     <string name="cont_desc_splash">Splash Screen Icon</string>

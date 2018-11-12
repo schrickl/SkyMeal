@@ -1,10 +1,12 @@
 package com.bill.android.skymeal.activities;
 
+import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -18,9 +20,24 @@ import android.widget.TextView;
 
 import com.bill.android.skymeal.R;
 import com.bill.android.skymeal.adapters.SummaryItemAdapter;
+import com.bill.android.skymeal.models.GooglePay;
 import com.bill.android.skymeal.models.MenuItem;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.wallet.AutoResolveHelper;
+import com.google.android.gms.wallet.IsReadyToPayRequest;
+import com.google.android.gms.wallet.PaymentData;
+import com.google.android.gms.wallet.PaymentDataRequest;
+import com.google.android.gms.wallet.PaymentsClient;
+import com.google.android.gms.wallet.Wallet;
+import com.google.android.gms.wallet.WalletConstants;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,6 +50,8 @@ public class SummaryActivity extends AppCompatActivity {
     private static final String SELECTED_ITEMS = "SelectedItems";
     private float mSub;
     private float mT;
+    private String RESULT_CODE = "RESULT_CODE";
+    private Intent mIntent;
     @BindView(R.id.rv_summary) RecyclerView mRecyclerView;
     @BindView(R.id.tv_subtotal) TextView mSubtotal;
     @BindView(R.id.tv_tip) TextView mTip;
@@ -40,6 +59,10 @@ public class SummaryActivity extends AppCompatActivity {
     @BindView(R.id.btn_ten) Button mTen;
     @BindView(R.id.btn_fifteen) Button mFifteen;
     @BindView(R.id.btn_twenty) Button mTwenty;
+    @BindView(R.id.img_google_pay) View mGooglePay;
+
+    private PaymentsClient mPaymentsClient;
+    private static final int LOAD_PAYMENT_DATA_REQUEST_CODE = 42;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -107,6 +130,96 @@ public class SummaryActivity extends AppCompatActivity {
         // and let the widget know there is a new order to display
         Intent i = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         sendBroadcast(intent);
+
+        // initialize a Google Pay API client for an environment suitable for testing
+        mPaymentsClient =
+                Wallet.getPaymentsClient(
+                        this,
+                        new Wallet.WalletOptions.Builder()
+                                .setEnvironment(WalletConstants.ENVIRONMENT_TEST)
+                                .build());
+
+        possiblyShowGooglePayButton();
+    }
+
+    private void possiblyShowGooglePayButton() {
+        final Optional<JSONObject> isReadyToPayJson = GooglePay.getIsReadyToPayRequest();
+        if (!isReadyToPayJson.isPresent()) {
+            return;
+        }
+        IsReadyToPayRequest request = IsReadyToPayRequest.fromJson(isReadyToPayJson.get().toString());
+        if (request == null) {
+            return;
+        }
+        Task<Boolean> task = mPaymentsClient.isReadyToPay(request);
+        task.addOnCompleteListener(
+                new OnCompleteListener<Boolean>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Boolean> task) {
+                        try {
+                            boolean result = task.getResult(ApiException.class);
+                            if (result) {
+                                // show Google as a payment option
+                                mGooglePay.setOnClickListener(
+                                        new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                requestPayment(view);
+                                            }
+                                        });
+                                mGooglePay.setVisibility(View.VISIBLE);
+                            }
+                        } catch (ApiException exception) {
+                            // handle developer errors
+                        }
+                    }
+                });
+    }
+
+    public void requestPayment(View view) {
+        Optional<JSONObject> paymentDataRequestJson = GooglePay.getPaymentDataRequest();
+        if (!paymentDataRequestJson.isPresent()) {
+            return;
+        }
+        PaymentDataRequest request =
+                PaymentDataRequest.fromJson(paymentDataRequestJson.get().toString());
+        if (request != null) {
+            AutoResolveHelper.resolveTask(
+                    mPaymentsClient.loadPaymentData(request), this, LOAD_PAYMENT_DATA_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            // value passed in AutoResolveHelper
+            case LOAD_PAYMENT_DATA_REQUEST_CODE:
+                switch (resultCode) {
+                    case Activity.RESULT_OK:
+                        PaymentData paymentData = PaymentData.getFromIntent(data);
+                        String json = paymentData.toJson();
+                        mIntent = new Intent(SummaryActivity.this, ReceiptActivity.class);
+                        mIntent.putExtra(RESULT_CODE, resultCode);
+                        startActivity(mIntent);
+                        break;
+                    case Activity.RESULT_CANCELED:
+                        break;
+                    case AutoResolveHelper.RESULT_ERROR:
+                        Status status = AutoResolveHelper.getStatusFromIntent(data);
+                        mIntent = new Intent(SummaryActivity.this, ReceiptActivity.class);
+                        mIntent.putExtra(RESULT_CODE, resultCode);
+                        startActivity(mIntent);
+                        // Log the status for debugging.
+                        // Generally, there is no need to show an error to the user.
+                        // The Google Pay payment sheet will present any account errors.
+                        break;
+                    default:
+                        // Do nothing.
+                }
+                break;
+            default:
+                // Do nothing.
+        }
     }
 
     private String orderDetailsBuilder() {

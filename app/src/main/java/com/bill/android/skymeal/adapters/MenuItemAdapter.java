@@ -89,7 +89,7 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.ViewHo
     }
 
     private void unhighlightView(ViewHolder holder) {
-        holder.itemView.setBackgroundColor(ContextCompat.getColor(mContext, android.R.color.white));
+        holder.itemView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorAccent));
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder  {

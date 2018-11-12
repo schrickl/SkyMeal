@@ -36,6 +36,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:16.0.5'
     implementation 'com.google.firebase:firebase-core:16.0.5'
 
+    // Google Pay
+    implementation 'com.google.android.gms:play-services-wallet:16.0.1'
+
     // Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
 
